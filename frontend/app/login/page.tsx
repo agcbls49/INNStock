@@ -76,7 +76,7 @@ export default function LoginPage() {
             </div>
             {/* Show error message */}
             {error && <p className="text-red-500 text-sm">{error}</p>}
-            <Button type="submit" className="w-full font-bold">Log In</Button>
+            <Button type="submit" className="w-full font-bold bg-orange-600 hover:bg-orange-700 dark:text-white">Log In</Button>
         </form>
     );
 }

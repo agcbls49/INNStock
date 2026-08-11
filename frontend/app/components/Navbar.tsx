@@ -28,11 +28,11 @@ export default function Navbar() {
             go back to the login or landing page */}
             {session ? (
                 <Link href="#" className="font-bold">
-                    My App
+                    INNStock
                 </Link> 
             ) : (
                 <Link href="/" className="font-bold">
-                    My App
+                    INNStock
                 </Link>
             ) }
 
@@ -59,7 +59,7 @@ export default function Navbar() {
                     </Button>
                     {/* log in and sign up buttons */}
                     <Link href="/login">
-                        <Button variant="outline" className="font-bold">Log In</Button>
+                        <Button variant="outline" className="font-bold text-white bg-orange-600 hover:bg-orange-700 hover:text-white dark:text-white dark:bg-orange-600 dark:hover:bg-orange-700">Log In</Button>
                     </Link>
                     <Link href="/signup">
                         <Button className="font-bold">Sign Up</Button>

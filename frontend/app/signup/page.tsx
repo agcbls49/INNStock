@@ -78,7 +78,7 @@ export default function SignupPage() {
                 </div>
             </div>
             {error && <p className="text-red-500 text-sm">{error}</p>}
-            <Button type="submit" className="w-full">Create an Account</Button>
+            <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 dark:text-white">Create an Account</Button>
         </form>
     );
 }
