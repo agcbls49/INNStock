@@ -7,6 +7,8 @@ import Navbar from "./components/Navbar";
 
 // import dark mode
 import { ThemeProvider } from "@/components/theme-provider";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -41,8 +43,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
           >
+            {/* show navbar or login logout all the time everywhere */}
             <Navbar />
-            {children}
+            {/* show sidebar all the time eevrywhere */}
+            <SidebarProvider>
+              <AppSidebar/>
+                {children}
+            </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>

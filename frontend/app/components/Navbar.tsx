@@ -24,14 +24,12 @@ export default function Navbar() {
 
     return (
         <nav className="flex items-center justify-between px-6 py-4 border-b">
-            {/* if user is logged in then prevent user from clicking my app to 
-            go back to the login or landing page */}
             {session ? (
-                <Link href="#" className="font-bold">
+                <Link href="/dashboard" className="font-bold">
                     INNStock
                 </Link> 
             ) : (
-                <Link href="/" className="font-bold">
+                <Link href="#" className="font-bold">
                     INNStock
                 </Link>
             ) }
