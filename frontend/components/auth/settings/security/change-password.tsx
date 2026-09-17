@@ -14,7 +14,7 @@ import {
   useRequestPasswordReset,
   useSession
 } from "@better-auth-ui/react"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, Lock } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
@@ -486,8 +486,9 @@ function ChangePasswordForm({
               <form.AuthFormSubmitButton
                 disabled={isPending || !session}
                 size="sm"
-                className="p-4.5 rounded-md bg-orange-600 text-white hover:bg-orange-700 capitalize"
+                className="p-3 h-8.5 rounded-md bg-orange-600 text-white hover:bg-orange-700 capitalize font-bold"
               >
+                <Lock className="mr-2"/>
                 {localization.settings.updatePassword}
               </form.AuthFormSubmitButton>
             </CardFooter>

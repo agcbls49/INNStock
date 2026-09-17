@@ -13,5 +13,11 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
     },
+    // this is needed for the account deletion feature
+    user: {
+        deleteUser: {
+            enabled: true
+        }
+    },
     trustedOrigins: ["http://localhost:3000"],
 });
