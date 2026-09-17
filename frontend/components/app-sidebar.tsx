@@ -1,6 +1,6 @@
 "use client"
 
-import { House, Package, Settings, User } from 'lucide-react';
+import { House, Package, Settings } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -18,6 +18,19 @@ import {
 import { authClient } from "@/lib/auth-client";
 
 export function AppSidebar() {
+
+    const pathname = usePathname();
+
+    // dont show sidebar in login and sign up pages
+    if (pathname === "/login" || pathname === "/signup") {
+        return null;
+    }
+
+    return <SidebarWithSession />;
+}
+
+function SidebarWithSession() {
+
     const { data: session, isPending } = authClient.useSession();
 
     const pathname = usePathname();
@@ -41,11 +54,6 @@ export function AppSidebar() {
             name: "Products",
             url: "/products",
             icon: Package,
-        },
-        {
-            name: "Profile",
-            url: "/profile",
-            icon: User,
         },
         {
             name: "Settings",
@@ -87,6 +95,7 @@ export function AppSidebar() {
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarContent>
+
             {/* bottom of sidebar */}
             <SidebarFooter />
         </Sidebar>

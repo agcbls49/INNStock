@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 
 import { useRouter } from "next/navigation";
@@ -22,6 +22,9 @@ export default function LoginPage() {
     // used to route or redirect user to dashboard page once logged in 
     const router = useRouter();
 
+    // to ensure that if the session already exists then dont show the login page
+    const { data: session, isPending } = authClient.useSession();
+
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         setError("");
@@ -42,12 +45,23 @@ export default function LoginPage() {
         router.push("/dashboard");
     }
 
+    // if the session already exists then show the dashboard page
+    useEffect(() => {
+        if(!isPending && session) {
+            router.push("/dashboard");
+        }
+    }, [session, isPending, router]);
+
     return (
-        <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-20 space-y-5">
+        <form onSubmit={handleSubmit} className="w-100 mx-auto mt-20 space-y-5">
             <div className="space-y-2">
                 <Label htmlFor="email" className="font-bold">Email</Label>
                 {/* get state or value of email */}
-                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input id="email" 
+                    type="email" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    className="w-100"/>
             </div>
             <div className="space-y-2">
                 <Label htmlFor="password" className="font-bold">Password</Label>
@@ -58,12 +72,13 @@ export default function LoginPage() {
                         type={isView ? "text" : "password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="w-100 pr-10"
                     />
                     {/* show password icon */}
                     <button
                         type="button"
                         onClick={() => setIsView(!isView)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2">
+                        className="absolute right-0 top-1/2 -translate-y-1/2 p-2 rounded-sm bg-orange-600 text-white hover:bg-orange-700">
                         {/* is view default false so if clicked then turn it to true which shows eye icon and the password into text form
                             else if clicked again then set true to false which shows the eye closed icon and the password into dots form */}
                         {isView ? (

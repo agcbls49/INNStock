@@ -44,7 +44,7 @@ export default function SignupPage() {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-20 space-y-5">
+        <form onSubmit={handleSubmit} className="w-100 mx-auto mt-20 space-y-5">
             <div className="space-y-2">
                 <Label htmlFor="name" className="font-bold">Name</Label>
                 <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
@@ -61,12 +61,13 @@ export default function SignupPage() {
                         type={isView ? "text" : "password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="pr-10"
                     />
                     {/* show password icon */}
                     <button
                         type="button"
                         onClick={() => setIsView(!isView)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2">
+                        className="absolute right-0 top-1/2 -translate-y-1/2 p-2 rounded-sm bg-orange-600 text-white hover:bg-orange-700">
                         {/* is view default false so if clicked then turn it to true which shows eye icon and the password into text form
                             else if clicked again then set true to false which shows the eye closed icon and the password into dots form */}
                         {isView ? (

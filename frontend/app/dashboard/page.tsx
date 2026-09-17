@@ -1,18 +1,22 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
     // if user already signed in then get the session
     const { data: session, isPending } = authClient.useSession();
 
+    const router = useRouter();
+
     if (isPending) {
         return <p className="text-center mt-20">Loading...</p>;
     }
 
-    // if user tries to get into dashboard without logging in show this
+    // if user tries to get into dashboard without logging in redirect to login
     if (!session) {
-        return <p className="text-center mt-20">You must be logged in to view this page.</p>;
+        router.push("/login");
+        return null;
     }
 
     return (
