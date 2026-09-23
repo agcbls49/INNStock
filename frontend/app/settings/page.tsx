@@ -56,7 +56,7 @@ export default function SettingsPage() {
         <AuthProvider
             authClient={authClient}
             // fuck this piece of shit only need because i use fucking better auth react form for navigation
-            // this is navigation on page only which is separate from actually signing out which s handled by 
+            // this is navigation on page only which is separate from actually signing out which is handled by 
             // better auth in the change-password.tsx file which uses next navigation (redirect to login) that is also passed here 
             navigate={({ to, replace }) => {
                 if (replace) {
@@ -88,7 +88,7 @@ export default function SettingsPage() {
                         <button
                             type="button"
                             onClick={() => setIsView(!isView)}
-                            className="relative -left-12 z-10 rounded-lg bg-black p-2 h-8 text-white hover:opacity-75">
+                            className="relative -left-12 z-10 rounded-lg bg-black p-2 h-8 text-white hover:opacity-75 hover:cursor-pointer">
                             {isView ? (
                                 <Eye className="h-4 w-4" />
                                     ) : (
@@ -96,7 +96,7 @@ export default function SettingsPage() {
                             )}
                         </button>
                         <Button variant="destructive" 
-                            className="p-3 h-8.5" 
+                            className="p-3 h-8.5 hover:cursor-pointer" 
                             onClick={() => deleteAccount(inputValue)}>
                             <Trash2 className="mr-2 h-4 w-4" />
                             Delete Account

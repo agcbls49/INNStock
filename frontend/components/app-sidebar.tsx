@@ -52,8 +52,7 @@ function SidebarWithSession() {
                 {/* top of the sidebar */}
                 <SidebarHeader />
                 <div className="text-center justify-center text-lg font-bold">
-                    {/* since the side bar is in all pages welcome as guest instead */}
-                    Welcome, <span className='text-orange-500'>{session?.user.name}!</span>
+                    Welcome, <span className='text-orange-500'>{session?.user.name ?? "Guest"}</span>
                 </div>
             </div>
             

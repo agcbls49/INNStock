@@ -269,11 +269,11 @@ function ChangePasswordForm({
                             field.state.meta
                           )}
                         />
-
+                        {/* had to put this line active:!translate-y-[-50%] active:!scale-100 to stop the buttons from making a jumping animation why the fuck is that even default behavior in shadcn */}
                         <InputGroupAddon align="inline-end">
                           <InputGroupButton
                             size="icon-sm"
-                            className="absolute -right-0.5 top-1/2 -translate-y-1/2 rounded-lg bg-orange-600 z-10 h-8.5 text-white hover:text-white hover:bg-orange-700"
+                            className="absolute -right-0.5 top-1/2 -translate-y-1/2 rounded-lg bg-orange-600 z-10 h-8.5 text-white hover:text-white hover:bg-orange-700 active:!translate-y-[-50%] active:!scale-100 hover:cursor-pointer"
                             aria-label={
                               isCurrentPasswordVisible
                                 ? localization.auth.hidePassword
@@ -288,7 +288,7 @@ function ChangePasswordForm({
                               setIsCurrentPasswordVisible((visible) => !visible)
                             }}
                           >
-                            {isCurrentPasswordVisible ? <EyeOff /> : <Eye />}
+                            {isCurrentPasswordVisible ? <Eye /> : <EyeOff />}
                           </InputGroupButton>
                         </InputGroupAddon>
                       </InputGroup>
@@ -358,7 +358,7 @@ function ChangePasswordForm({
                           <InputGroupAddon align="inline-end">
                             <InputGroupButton
                               size="icon-sm"
-                              className="absolute -right-0.5 top-1/2 -translate-y-1/2 rounded-lg bg-orange-600 z-10 h-8.5 text-white hover:text-white hover:bg-orange-700"
+                              className="absolute -right-0.5 top-1/2 -translate-y-1/2 rounded-lg bg-orange-600 z-10 h-8.5 text-white hover:text-white hover:bg-orange-700 active:!translate-y-[-50%] active:!scale-100 hover:cursor-pointer"
                               aria-label={
                                 isNewPasswordVisible
                                   ? localization.auth.hidePassword
@@ -368,7 +368,7 @@ function ChangePasswordForm({
                                 setIsNewPasswordVisible((visible) => !visible)
                               }
                             >
-                              {isNewPasswordVisible ? <EyeOff /> : <Eye />}
+                              {isNewPasswordVisible ? <Eye /> : <EyeOff />}
                             </InputGroupButton>
                           </InputGroupAddon>
                         </InputGroup>
@@ -453,7 +453,7 @@ function ChangePasswordForm({
                           <InputGroupAddon align="inline-end">
                             <InputGroupButton
                               size="icon-sm"
-                              className="absolute -right-0.5 top-1/2 -translate-y-1/2 rounded-lg bg-orange-600 z-10 h-8.5 text-white hover:text-white hover:bg-orange-700"
+                              className="absolute -right-0.5 top-1/2 -translate-y-1/2 rounded-lg bg-orange-600 z-10 h-8.5 text-white hover:text-white hover:bg-orange-700 active:!translate-y-[-50%] active:!scale-100 hover:cursor-pointer"
                               aria-label={
                                 isConfirmPasswordVisible
                                   ? localization.auth.hidePassword
@@ -486,7 +486,7 @@ function ChangePasswordForm({
               <form.AuthFormSubmitButton
                 disabled={isPending || !session}
                 size="sm"
-                className="p-3 h-8.5 rounded-md bg-orange-600 text-white hover:bg-orange-700 capitalize font-bold"
+                className="p-3 h-8.5 rounded-md bg-orange-600 text-white hover:bg-orange-700 capitalize font-bold hover:cursor-pointer"
               >
                 <Lock className="mr-2"/>
                 {localization.settings.updatePassword}
