@@ -18,31 +18,14 @@ import {
 import { authClient } from "@/lib/auth-client";
 
 export function AppSidebar() {
-
-    const pathname = usePathname();
-
-    // dont show sidebar in login and sign up pages
-    if (pathname === "/login" || pathname === "/signup") {
-        return null;
-    }
-
     return <SidebarWithSession />;
 }
 
 function SidebarWithSession() {
 
-    const { data: session, isPending } = authClient.useSession();
+    const { data: session } = authClient.useSession();
 
     const pathname = usePathname();
-
-    if (isPending) {
-        return <p className="text-center mt-20">Loading...</p>;
-    }
-
-    // if user tries to get into dashboard without logging in show this
-    if (!session && pathname === "/dashboard") {
-        return <p className="text-center mt-20">You must be logged in to view this page.</p>;
-    }
 
     const items = [
         {
@@ -70,7 +53,7 @@ function SidebarWithSession() {
                 <SidebarHeader />
                 <div className="text-center justify-center text-lg font-bold">
                     {/* since the side bar is in all pages welcome as guest instead */}
-                    Welcome, <span className='text-orange-500'>{session?.user?.name ?? "Guest"}!</span>
+                    Welcome, <span className='text-orange-500'>{session?.user.name}!</span>
                 </div>
             </div>
             
