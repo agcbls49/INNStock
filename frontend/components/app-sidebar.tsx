@@ -47,7 +47,7 @@ function SidebarWithSession() {
     
     return (
         // create sidebar
-        <Sidebar>
+        <Sidebar className='top-16'>
             <div className="mt-10">
                 {/* top of the sidebar */}
                 <SidebarHeader />

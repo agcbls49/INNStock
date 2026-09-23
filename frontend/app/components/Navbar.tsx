@@ -23,7 +23,8 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="flex items-center justify-between px-6 py-4 border-b">
+        // bg-background is from shadcn which applies the default background color configured in the globals css file
+        <nav className="sticky top-0 z-50 bg-background flex items-center justify-between px-6 py-4 border-b">
             {session ? (
                 <Link href="/dashboard" className="font-bold">
                     INNStock
