@@ -40,7 +40,7 @@ function SidebarWithSession() {
     }
 
     // if user tries to get into dashboard without logging in show this
-    if (!session) {
+    if (!session && pathname === "/dashboard") {
         return <p className="text-center mt-20">You must be logged in to view this page.</p>;
     }
 
@@ -69,7 +69,8 @@ function SidebarWithSession() {
                 {/* top of the sidebar */}
                 <SidebarHeader />
                 <div className="text-center justify-center text-lg font-bold">
-                    Welcome, <span className='text-orange-500'>{session.user.name}!</span>
+                    {/* since the side bar is in all pages welcome as guest instead */}
+                    Welcome, <span className='text-orange-500'>{session?.user?.name ?? "Guest"}!</span>
                 </div>
             </div>
             

@@ -3,12 +3,12 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
+import SidebarWrapper from "./components/SidebarWrapper";
+
 import Navbar from "./components/Navbar";
 
 // import dark mode
 import { ThemeProvider } from "@/components/theme-provider";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -45,11 +45,8 @@ export default function RootLayout({
           >
             {/* show navbar or login logout all the time everywhere */}
             <Navbar />
-            {/* show sidebar all the time eevrywhere */}
-            <SidebarProvider>
-              <AppSidebar/>
-                {children}
-            </SidebarProvider>
+            {/* show sidebar everywhere except login or sign up pages */}
+            <SidebarWrapper>{children}</SidebarWrapper>
         </ThemeProvider>
       </body>
     </html>
