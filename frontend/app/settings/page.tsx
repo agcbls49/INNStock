@@ -53,57 +53,59 @@ export default function SettingsPage() {
     };
 
     return (
-        <AuthProvider
-            authClient={authClient}
-            // fuck this piece of shit only need because i use fucking better auth react form for navigation
-            // this is navigation on page only which is separate from actually signing out which is handled by 
-            // better auth in the change-password.tsx file which uses next navigation (redirect to login) that is also passed here 
-            navigate={({ to, replace }) => {
-                if (replace) {
-                    // Go to this page, and don't let the user go Back to the page they were just on
-                    router.replace(to);
-                } else {
-                    // Go to this page, but let the user press Back to return to the previous page
-                    router.push(to);
-                }
-            }}
-            redirectTo="/dashboard"
-        >
-            <div className="m-20 w-150 space-y-10">
-                <ChangePassword />
-                {/* delete account needs that user password */}
-                <Card className="bg-destructive/5">
-                    <CardHeader>
-                        <CardTitle>Delete Account</CardTitle>
-                        <CardDescription className="text-red-500">This action is permanent!</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex gap-4">
-                        <Input
-                            placeholder="Enter your password" 
-                            id="password" 
-                            type={isView ? "text" : "password"}
-                            value={inputValue} 
-                            onChange={handleInputChange}
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setIsView(!isView)}
-                            className="relative -left-12 z-10 rounded-lg bg-black p-2 h-8 text-white hover:opacity-75 hover:cursor-pointer">
-                            {isView ? (
-                                <Eye className="h-4 w-4" />
-                                    ) : (
-                                <EyeOff className="h-4 w-4" />
-                            )}
-                        </button>
-                        <Button variant="destructive" 
-                            className="p-3 h-8.5 hover:cursor-pointer" 
-                            onClick={() => deleteAccount(inputValue)}>
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Delete Account
-                        </Button>
-                    </CardContent>
-                </Card>
-            </div>
-        </AuthProvider>
+        <main className="">
+            <AuthProvider
+                authClient={authClient}
+                // fuck this piece of shit only need because i use fucking better auth react form for navigation
+                // this is navigation on page only which is separate from actually signing out which is handled by 
+                // better auth in the change-password.tsx file which uses next navigation (redirect to login) that is also passed here 
+                navigate={({ to, replace }) => {
+                    if (replace) {
+                        // Go to this page, and don't let the user go Back to the page they were just on
+                        router.replace(to);
+                    } else {
+                        // Go to this page, but let the user press Back to return to the previous page
+                        router.push(to);
+                    }
+                }}
+                redirectTo="/dashboard"
+            >
+                <div className="m-20 w-150 space-y-10">
+                    <ChangePassword />
+                    {/* delete account needs that user password */}
+                    <Card className="bg-destructive/5">
+                        <CardHeader>
+                            <CardTitle>Delete Account</CardTitle>
+                            <CardDescription className="text-red-500">This action is permanent!</CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex gap-4">
+                            <Input
+                                placeholder="Enter your password" 
+                                id="password" 
+                                type={isView ? "text" : "password"}
+                                value={inputValue} 
+                                onChange={handleInputChange}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setIsView(!isView)}
+                                className="relative -left-12 z-10 rounded-lg bg-black p-2 h-8 text-white hover:opacity-75 hover:cursor-pointer">
+                                {isView ? (
+                                    <Eye className="h-4 w-4" />
+                                        ) : (
+                                    <EyeOff className="h-4 w-4" />
+                                )}
+                            </button>
+                            <Button variant="destructive" 
+                                className="p-3 h-8.5 hover:cursor-pointer" 
+                                onClick={() => deleteAccount(inputValue)}>
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete Account
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </div>
+            </AuthProvider>
+        </main>
     );
 }

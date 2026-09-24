@@ -137,8 +137,9 @@ function SidebarProvider({
             ...style,
           } as React.CSSProperties
         }
+        // I HAD TO REMOVE min-h-svh TO REMOVE THE UGLY SCROLL BAR SINCE IT SHOWS EVEN ON SHORT CONTENTS
         className={cn(
-          "group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar",
+          "group/sidebar-wrapper flex  w-full has-data-[variant=inset]:bg-sidebar",
           className
         )}
         {...props}
