@@ -21,10 +21,10 @@ import { Funnel, PackageSearch, PackagePlus, ArrowDownToLine } from "lucide-reac
 export default function ActionsBar() {
     return (
         <main className="flex m-10">
-            <div className="flex gap-4">
+            <div className="flex gap-2">
                 {/* filter by computer parts */}
                 <DropdownMenu>
-                    <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
+                    <DropdownMenuTrigger render={<Button className="p-4 hover:cursor-pointer" />}>
                         <Funnel/>
                         Filter by Computer Parts
                     </DropdownMenuTrigger>
@@ -48,9 +48,9 @@ export default function ActionsBar() {
 
                 {/* filter by peripherals */}
                 <DropdownMenu>
-                    <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
+                    <DropdownMenuTrigger render={<Button className="p-4 hover:cursor-pointer" />}>
                         <Funnel/>
-                        Filter by Pheripherals
+                        Filter by Electronic Pheripherals
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuGroup>
@@ -69,9 +69,9 @@ export default function ActionsBar() {
 
                 {/* stock status filter */}
                 <DropdownMenu>
-                    <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
+                    <DropdownMenuTrigger render={<Button className="p-4 hover:cursor-pointer" />}>
                         <Funnel/>
-                        Filter by Stock Status
+                        Filter by Product Stock Status
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuGroup>
@@ -98,16 +98,16 @@ export default function ActionsBar() {
                 </div>
                 {/* search button */}
                 <div className="flex">
-                    <Button variant="outline" className="p-4 hover:cursor-pointer">
-                        <PackageSearch/> Search for an item 
+                    <Button className="p-4 hover:cursor-pointer">
+                        <PackageSearch/> Search for a Product 
                     </Button>
                 </div>
             </div>
 
             {/* add item and download buttons */}
-            <div className="flex gap-4 ml-4">
-                <Button variant="outline" className="p-4 hover:cursor-pointer">
-                    <PackagePlus /> Add an Item 
+            <div className="flex gap-2 ml-2">
+                <Button className="p-4 hover:cursor-pointer">
+                    <PackagePlus /> Add a Product 
                 </Button>
                 <Button className="w-fit justify-self-center rounded-lg p-4 bg-orange-600 text-white hover:bg-orange-700 hover:text-white pointer-events-auto hover:cursor-pointer">
                     <ArrowDownToLine /> Download Product List

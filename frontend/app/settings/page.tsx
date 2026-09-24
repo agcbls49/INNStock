@@ -53,7 +53,7 @@ export default function SettingsPage() {
     };
 
     return (
-        <main className="">
+        <main>
             <AuthProvider
                 authClient={authClient}
                 // fuck this piece of shit only need because i use fucking better auth react form for navigation

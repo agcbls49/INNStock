@@ -5,6 +5,8 @@ import { authClient } from "@/lib/auth-client";
 import { useEffect } from "react";
 
 import ActionsBar from "../components/ActionsBar";
+import ProductListCard from "../components/ProductListTable";
+import PaginationBar from "../components/PaginationBar";
 
 export default function ProductsPage() {
     useEffect(() => {
@@ -14,6 +16,8 @@ export default function ProductsPage() {
     return(
         <div>
             <ActionsBar />
+            <ProductListCard />
+            <PaginationBar />
         </div>
     );
 }

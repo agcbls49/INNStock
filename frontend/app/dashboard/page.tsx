@@ -62,6 +62,7 @@ export default function DashboardPage() {
                     </CardContent>
                 </Card>
 
+                {/* download product list button */}
                 <Button className="w-fit justify-self-center mt-8 rounded-lg p-5 bg-orange-600 text-white hover:bg-orange-700 hover:text-white pointer-events-auto hover:cursor-pointer mb-15">
                     <ArrowDownToLine /> Download Product List
                 </Button>
