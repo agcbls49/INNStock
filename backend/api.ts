@@ -1,6 +1,6 @@
 // import database config and user table from schema folder
 import { db } from "./db";
-import { user } from "./drizzle/schema";
+import { productsListTable, user } from "./drizzle/schema";
 
 // import express data types and cors
 import express, { Request, Response } from "express";
@@ -31,14 +31,21 @@ async function main() {
     app.use(express.json());
 
     // show all users from the table users
+    // go to localhost /api to see all users, in this case only 1 
     app.get("/api", async (_req: Request, res: Response) => {
         const data = await db.select().from(user);
         res.json({ users: data });
     });
 
+    // go to localhost /products to see all products
+    app.get("/products", async (_req:Request, res:Response) => {
+        const data = await db.select().from(productsListTable);
+        res.json({product: data});
+    }); 
+
     const port = process.env.PORT || 4000;
     app.listen(port, () => {
-        console.log(`Server running on http://localhost:${port}/api`);
+        console.log(`Server running on http://localhost:${port}/`);
     });
 }
 

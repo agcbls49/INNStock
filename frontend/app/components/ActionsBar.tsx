@@ -24,7 +24,7 @@ export default function ActionsBar() {
             <div className="flex gap-2">
                 {/* filter by computer parts */}
                 <DropdownMenu>
-                    <DropdownMenuTrigger render={<Button className="p-4 hover:cursor-pointer" />}>
+                    <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
                         <Funnel/>
                         Filter by Computer Parts
                     </DropdownMenuTrigger>
@@ -37,6 +37,7 @@ export default function ActionsBar() {
                         <DropdownMenuItem>Motherboard</DropdownMenuItem>
                         <DropdownMenuItem>Memory</DropdownMenuItem>
                         <DropdownMenuItem>Storage</DropdownMenuItem>
+                        <DropdownMenuItem>Monitor</DropdownMenuItem>
                         <DropdownMenuItem>GPU</DropdownMenuItem>
                         <DropdownMenuItem>Case</DropdownMenuItem>
                         <DropdownMenuItem>Case Fans</DropdownMenuItem>
@@ -48,15 +49,14 @@ export default function ActionsBar() {
 
                 {/* filter by peripherals */}
                 <DropdownMenu>
-                    <DropdownMenuTrigger render={<Button className="p-4 hover:cursor-pointer" />}>
+                    <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
                         <Funnel/>
-                        Filter by Electronic Pheripherals
+                        Filter by Computer Accessories
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuGroup>
-                        <DropdownMenuLabel>Peripherals</DropdownMenuLabel>
+                        <DropdownMenuLabel>Computer Accessories</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Monitor</DropdownMenuItem>
                         <DropdownMenuItem>Webcam</DropdownMenuItem>
                         <DropdownMenuItem>Keyboard</DropdownMenuItem>
                         <DropdownMenuItem>Mouse</DropdownMenuItem>
@@ -69,7 +69,7 @@ export default function ActionsBar() {
 
                 {/* stock status filter */}
                 <DropdownMenu>
-                    <DropdownMenuTrigger render={<Button className="p-4 hover:cursor-pointer" />}>
+                    <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
                         <Funnel/>
                         Filter by Product Stock Status
                     </DropdownMenuTrigger>

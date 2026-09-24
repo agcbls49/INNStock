@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button"
 import {
     Table,
@@ -8,37 +10,43 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
+import { useState, useEffect } from "react";
+
+type Product = {
+    productName: string;
+    skuNumber: string;
+    category: string;
+    totalStocks: number;
+    itemPrice: number;
+    status: string;
+};
 
 export default function ProductListCard() {
 
-    const products = [
-        {
-            productName: "Logitech G102",
-            skuNumber: "SKU-001",
-            category: "Computer Parts",
-            totalStocks: 25,
-            price: "₱999",
-            status: "In Stock",
-        },
-        {
-            productName: "Kingston 16GB DDR4 RAM",
-            skuNumber: "SKU-002",
-            category: "Computer Parts",
-            totalStocks: 12,
-            price: "₱2,780",
-            status: "In Stock",
-        },
-        {
-            productName: "Razer DeathAdder Essential",
-            skuNumber: "SKU-003",
-            category: "Computer Accessories",
-            totalStocks: 0,
-            price: "₱3,540",
-            status: "Out of Stock",
-        },
-    ]
+    const [data, setData] = useState<Product[]>([]);
 
-    return(
+    async function loadAllProducts() {
+        try {
+            const response = await fetch("http://localhost:4000/products");
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch products");
+            }
+
+            const result = await response.json();
+            setData(result.product);
+        }
+        catch (e) {
+            console.error(e);
+            setData([]);
+        }
+    }
+
+    useEffect(() => {
+        loadAllProducts();
+    }, []);
+
+    return (
         <main className="ml-10 max-w-8xl">
             <Table>
                 <TableHeader>
@@ -52,23 +60,33 @@ export default function ProductListCard() {
                         <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>
-
                 <TableBody>
-                    {products.map((product) => (
+                    {/* map() - function call that takes a callback function
+                    show all products */}
+                    {data.map((product) => (
                         <TableRow key={product.skuNumber}>
                             <TableCell className="font-medium">
+                                {/* show product name */}
                                 {product.productName}
                             </TableCell>
+                            {/* show product sku number */}
                             <TableCell>{product.skuNumber}</TableCell>
+                            {/* show product category */}
                             <TableCell>{product.category}</TableCell>
+                            {/* show total number of stocks */}
                             <TableCell>{product.totalStocks}</TableCell>
-                            <TableCell>{product.price}</TableCell>
+                            {/* show product price per item or piece */}
+                            <TableCell>₱ {product.itemPrice}</TableCell>
+                            {/* show product stock status */}
                             <TableCell>{product.status}</TableCell>
+                            {/* the action buttons */}
                             <TableCell>
                                 <div className="flex gap-2">
+                                    {/* edit button */}
                                     <Button variant="outline">
                                         Edit
                                     </Button>
+                                    {/* delete button */}
                                     <Button variant="destructive">
                                         Delete
                                     </Button>
@@ -77,7 +95,6 @@ export default function ProductListCard() {
                         </TableRow>
                     ))}
                 </TableBody>
-
             </Table>
         </main>
     );
