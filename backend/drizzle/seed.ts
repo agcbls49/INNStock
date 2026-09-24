@@ -1,9 +1,12 @@
 import { db } from "../db";
-import { user } from "./schema";
+import { user, productsListTable } from "./schema";
 import { auth } from "../lib/auth";
 
 async function seed() {
-    console.log("Seeding users...");
+    console.log("Seeding users and products...");
+
+    // delete all products
+    await db.delete(productsListTable);
 
     // delete all users
     await db.delete(user);
@@ -16,16 +19,36 @@ async function seed() {
         },
     });
 
-    const testUser = await auth.api.signUpEmail({
-        body: {
-            name: "Test User",
-            email: "test@example.com",
-            password: "Test123!",
-        },
-    });
-
     console.log("Admin created:", admin.user.email);
-    console.log("Test user created:", testUser.user.email);
+
+    await db.insert(productsListTable).values([
+        {
+            productName: "Logitech G102",
+            skuNumber: "SKU-001",
+            category: "Computer Parts",
+            totalStocks: 25,
+            itemPrice: "999.00",
+            status: "In Stock",
+        },
+        {
+            productName: "Kingston 16GB DDR4 RAM",
+            skuNumber: "SKU-002",
+            category: "Computer Parts",
+            totalStocks: 12,
+            itemPrice: "2780.00",
+            status: "In Stock",
+        },
+        {
+            productName: "Razer DeathAdder Essential",
+            skuNumber: "SKU-003",
+            category: "Computer Accessories",
+            totalStocks: 0,
+            itemPrice: "3540.00",
+            status: "Out of Stock",
+        },
+    ]);
+
+    console.log("Products created.");
     console.log("Seed completed!");
 }
 

@@ -8,6 +8,8 @@ export default {
     /*
         npx drizzle-kit generate - creates SQL files from schema.ts (ex. ALTER, CREATE)
         npx drizzle-kit migrate - runs SQL files on the database. 
+        npx drizzle-kit push - push the migration and use the seed to create the tables.
+        npx tsx drizzle/seed.ts - run the seed and use the seed to put the data inside the tables.
     */
     out: "./drizzle/migrations/",
     dialect: "postgresql",

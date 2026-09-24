@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, integer, numeric } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
     // unique user id. its default is text for better auth and it handles it too
@@ -65,4 +65,15 @@ export const verification = pgTable("verification", {
     value: text("value").notNull(),
     // when that code stops working
     expiresAt: timestamp("expires_at").notNull(),
+});
+
+// products table
+export const productsListTable = pgTable("products", {
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    productName: text().notNull(),
+    skuNumber: text().notNull().unique(),
+    category: text().notNull(),
+    totalStocks: integer().notNull(),
+    itemPrice: numeric("item_price", { precision: 10, scale: 2 }).notNull(),
+    status: text().notNull(),
 });
