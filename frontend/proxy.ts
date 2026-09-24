@@ -8,7 +8,7 @@ const PRIVATE_ROUTES = [
     "/settings",
 ];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
 
     // Only check authentication for private pages
