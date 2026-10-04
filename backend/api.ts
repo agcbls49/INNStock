@@ -109,11 +109,35 @@ async function main() {
         res.json({product: data});
     }); 
 
-    const port = process.env.PORT || 4000;
-    app.listen(port, () => {
-        console.log(`Server running on http://localhost:${port}/`);
+    // download as csv option
+    app.get("/api/products/download", async (_req: Request, res: Response) => {
+        try {
+            const products = await db.select().from(productsListTable);
+
+            const header = "id,productName,skuNumber,category,totalStocks,itemPrice,status";
+
+            const rows = products.map(product =>
+                `${product.id},"${product.productName}","${product.skuNumber}","${product.category}",${product.totalStocks},${product.itemPrice},"${product.status}"`
+            ).join("\n");
+
+            const csv = `${header}\n${rows}`;
+
+            res.setHeader("Content-Type", "text/csv; charset=utf-8");
+            res.setHeader("Content-Disposition", 'attachment; filename="products.csv"');
+
+            res.send(csv);
+        }
+        catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Failed to download products" });
+        }
     });
-}
+
+        const port = process.env.PORT || 4000;
+        app.listen(port, () => {
+            console.log(`Server running on http://localhost:${port}/`);
+        });
+    }
 
 main().catch(err => {
     console.error("Startup Error:", err);

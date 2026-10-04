@@ -98,7 +98,8 @@ export default function DashboardPage() {
                 </Card>
 
                 {/* download product list button */}
-                <Button className="w-fit justify-self-center mt-8 rounded-lg p-5 bg-orange-600 text-white hover:bg-orange-700 hover:text-white pointer-events-auto hover:cursor-pointer mb-15">
+                <Button className="w-fit justify-self-center mt-8 rounded-lg p-5 bg-orange-600 text-white hover:bg-orange-700 hover:text-white pointer-events-auto hover:cursor-pointer mb-15"
+                    onClick={() => { window.location.href = "http://localhost:4000/api/products/download"; }}>
                     <ArrowDownToLine /> Download Product List
                 </Button>
 

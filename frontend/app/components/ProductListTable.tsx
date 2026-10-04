@@ -193,7 +193,8 @@ export default function ProductListCard() {
                     <Button className="p-4 hover:cursor-pointer">
                         <PackagePlus /> Add a Product 
                     </Button>
-                    <Button className="w-fit justify-self-center rounded-lg p-4 bg-orange-600 text-white hover:bg-orange-700 hover:text-white pointer-events-auto hover:cursor-pointer">
+                    <Button className="w-fit justify-self-center rounded-lg p-4 bg-orange-600 text-white hover:bg-orange-700 hover:text-white pointer-events-auto hover:cursor-pointer"
+                        onClick={() => { window.location.href = "http://localhost:4000/api/products/download"; }}>
                         <ArrowDownToLine /> Download Product List
                     </Button>
                 </div>
