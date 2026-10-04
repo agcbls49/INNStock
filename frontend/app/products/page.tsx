@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 
-import ActionsBar from "../components/ActionsBar";
 import ProductListCard from "../components/ProductListTable";
 
 export default function ProductsPage() {
@@ -12,7 +11,6 @@ export default function ProductsPage() {
 
     return(
         <div>
-            <ActionsBar />
             <ProductListCard />
         </div>
     );

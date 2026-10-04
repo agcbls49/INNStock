@@ -10,6 +10,7 @@ import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
 // Better Auth configuration
 import { auth } from "./lib/auth";
+import { or, ilike } from "drizzle-orm";
 
 async function main() {
     const app = express();
@@ -32,14 +33,29 @@ async function main() {
 
     // show all users from the table users
     // go to localhost /api to see all users, in this case only 1 
-    app.get("/api", async (_req: Request, res: Response) => {
+    app.get("/api", async(_req: Request, res: Response) => {
         const data = await db.select().from(user);
         res.json({ users: data });
     });
 
+    // for the search feature
+    app.get("/api/search", async(req: Request, res: Response) => {
+        // http://localhost:4000/api/search?q=mouse
+        const query = req.query.q as string;
+        const filteredItems = await db.select().from(productsListTable)
+            .where(or(
+                ilike(productsListTable.productName, `%${query}%`), 
+                ilike(productsListTable.category, `%${query}%`)
+            ))
+            .limit(10);
+        
+        res.json({ product: filteredItems });
+    });
+
     // go to localhost /products to see all products
-    app.get("/products", async (_req:Request, res:Response) => {
+    app.get("/products", async (_req: Request, res: Response) => {
         const data = await db.select().from(productsListTable);
+        // this sends all product details
         res.json({product: data});
     }); 
 

@@ -2,6 +2,23 @@
 
 import { Button } from "@/components/ui/button"
 import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+import {
+    Field,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+import { Funnel, PackageSearch, PackagePlus, ArrowDownToLine } from "lucide-react"
+
+import {
     Table,
     TableBody,
     TableCell,
@@ -28,6 +45,17 @@ export default function ProductListCard() {
     const [data, setData] = useState<Product[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
+
+    // search
+    const [searchQuery, setSearchQuery] = useState("");
+
+    async function searchProducts(searchQuery:string) {
+        // encodeURIComponent ensures that data put into the link is safe
+        const response = await fetch(`http://localhost:4000/api/search?q=${encodeURIComponent(searchQuery)}`);
+        const result = await response.json();
+        // .product since my backend uses product as a list encapsulating the data or my database data
+        setData(result.product);
+    }
 
     // slice for creating a copy of an array
     const paginatedData = data.slice(
@@ -63,6 +91,115 @@ export default function ProductListCard() {
 
     return (
         <main className="ml-10 max-w-8xl">
+            <div className="flex justify-center mt-10 mb-5">
+                {/* actions bar */}
+                <div className="flex gap-2">
+                {/* filter by computer parts */}
+                    <DropdownMenu>
+                        <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
+                            <Funnel/>
+                            Filter by Computer Parts
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                            <DropdownMenuLabel>Computer Parts</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>CPU</DropdownMenuItem>
+                            <DropdownMenuItem>CPU Cooler</DropdownMenuItem>
+                            <DropdownMenuItem>Motherboard</DropdownMenuItem>
+                            <DropdownMenuItem>Memory</DropdownMenuItem>
+                            <DropdownMenuItem>Storage</DropdownMenuItem>
+                            <DropdownMenuItem>Monitor</DropdownMenuItem>
+                            <DropdownMenuItem>GPU</DropdownMenuItem>
+                            <DropdownMenuItem>Case</DropdownMenuItem>
+                            <DropdownMenuItem>Case Fans</DropdownMenuItem>
+                            <DropdownMenuItem>PSU</DropdownMenuItem>
+                            <DropdownMenuItem>Expansion Card</DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    {/* filter by peripherals */}
+                    <DropdownMenu>
+                        <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
+                            <Funnel/>
+                            Filter by Computer Accessories
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                            <DropdownMenuLabel>Computer Accessories</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Webcam</DropdownMenuItem>
+                            <DropdownMenuItem>Keyboard</DropdownMenuItem>
+                            <DropdownMenuItem>Mouse</DropdownMenuItem>
+                            <DropdownMenuItem>Mouse Pad</DropdownMenuItem>
+                            <DropdownMenuItem>Headset</DropdownMenuItem>
+                            <DropdownMenuItem>Speaker</DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    {/* stock status filter */}
+                    <DropdownMenu>
+                        <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
+                            <Funnel/>
+                            Filter by Product Stock Status
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                            <DropdownMenuLabel>Stock Status</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>In Stock</DropdownMenuItem>
+                            <DropdownMenuItem>Low Stock</DropdownMenuItem>
+                            <DropdownMenuItem>Out of Stock</DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    {/* search input */}
+                    <div className="w-full max-w-sm">
+                        <Field>
+                            <Input
+                                id="input-field-search"
+                                type="text"
+                                placeholder="e.g. Mouse"
+                                className="p-4"
+                                onChange={(e) => {
+                                    // when value of the input field changes
+                                    const value = e.target.value;
+
+                                    // if not empty then call the search end point
+                                    if(value.trim()) {
+                                        searchProducts(value);
+                                    }
+                                    // if input field is empty then reload all products
+                                    else {
+                                        loadAllProducts();
+                                    }
+                                }}
+                            />
+                        </Field>
+                    </div>
+                    {/* search button */}
+                    <div className="flex">
+                        <Button className="p-4 hover:cursor-pointer">
+                            <PackageSearch/> Search for a Product 
+                        </Button>
+                    </div>
+                </div>
+
+                {/* add item and download buttons */}
+                <div className="flex gap-2 ml-2">
+                    <Button className="p-4 hover:cursor-pointer">
+                        <PackagePlus /> Add a Product 
+                    </Button>
+                    <Button className="w-fit justify-self-center rounded-lg p-4 bg-orange-600 text-white hover:bg-orange-700 hover:text-white pointer-events-auto hover:cursor-pointer">
+                        <ArrowDownToLine /> Download Product List
+                    </Button>
+                </div>
+            </div>
+            
+            {/* products table */}
             <Table>
                 <TableHeader>
                     <TableRow>
@@ -113,7 +250,6 @@ export default function ProductListCard() {
             </Table>
             
             {/* pagination buttons */}
-
             <div className="mt-10 flex items-center justify-center gap-2">
                 <Button 
                     variant="outline"
