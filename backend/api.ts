@@ -1,5 +1,6 @@
 // import database config and user table from schema folder
 import { db } from "./db";
+import { or, ilike, count } from "drizzle-orm";
 import { productsListTable, user } from "./drizzle/schema";
 
 // import express data types and cors
@@ -10,7 +11,6 @@ import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
 // Better Auth configuration
 import { auth } from "./lib/auth";
-import { or, ilike } from "drizzle-orm";
 
 async function main() {
     const app = express();
@@ -52,8 +52,58 @@ async function main() {
         res.json({ product: filteredItems });
     });
 
-    // go to localhost /products to see all products
-    app.get("/products", async (_req: Request, res: Response) => {
+    // get products count for the dashboard 
+    app.get("/api/products/count", async (_req: Request, res: Response) => {
+        const result = await db.select({ count: count() }).from(productsListTable);
+        res.json({ count: result[0].count });
+    }); 
+
+    // dashboard counts
+    app.get("/api/dashboard", async (_req: Request, res: Response) => {
+        const products = await db.select().from(productsListTable);
+
+        const totalProducts = products.length;
+
+        const totalStock = products.reduce(
+            (sum, product) => sum + product.totalStocks, 0
+        );
+
+        const lowStock = products.filter(
+            product => product.status === "Low Stock"
+        ).length;
+
+        const outOfStock = products.filter(
+            product => product.status === "Out of Stock"
+        ).length;
+
+        const inventoryValue = products.reduce(
+            (sum, product) => sum + (product.totalStocks * Number(product.itemPrice)), 0
+        );
+
+        // show only the top 5 product names for these two using slice 
+        const lowStockProductName = products
+            .filter(product => product.status === "Low Stock")
+            .map(product => product.productName)
+            .slice(0, 5);
+        
+        const outOfStockProductName = products
+            .filter(product => product.status === "Out of Stock")
+            .map(product => product.productName)
+            .slice(0, 5);    
+
+        res.json({
+            totalProducts,
+            totalStock,
+            lowStock,
+            outOfStock,
+            inventoryValue,
+            lowStockProductName,
+            outOfStockProductName
+        });
+    });
+    
+    // gets all products
+    app.get("/api/products", async (_req: Request, res: Response) => {
         const data = await db.select().from(productsListTable);
         // this sends all product details
         res.json({product: data});
