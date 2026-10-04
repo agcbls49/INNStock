@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table"
 
 import { useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type Product = {
     productName: string;
@@ -22,8 +23,22 @@ type Product = {
 };
 
 export default function ProductListCard() {
-
+    // data is all products
+    // paginatedData is 10 products from the current page
     const [data, setData] = useState<Product[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    // slice for creating a copy of an array
+    const paginatedData = data.slice(
+        // first index
+        (currentPage - 1) * itemsPerPage, 
+        // last index
+        currentPage * itemsPerPage
+    );
+
+    // ceil for rounding number upward to nearest integer
+    const totalPages = Math.ceil(data.length / itemsPerPage);
 
     async function loadAllProducts() {
         try {
@@ -63,7 +78,7 @@ export default function ProductListCard() {
                 <TableBody>
                     {/* map() - function call that takes a callback function
                     show all products */}
-                    {data.map((product) => (
+                    {paginatedData.map((product) => (
                         <TableRow key={product.skuNumber}>
                             <TableCell className="font-medium">
                                 {/* show product name */}
@@ -96,6 +111,37 @@ export default function ProductListCard() {
                     ))}
                 </TableBody>
             </Table>
+            
+            {/* pagination buttons */}
+
+            <div className="mt-10 flex items-center justify-center gap-2">
+                <Button 
+                    variant="outline"
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    >
+                    <ChevronLeft/>
+                    Previous
+                </Button>
+
+                {/* _ used as placeholder because only index is needed */}
+                {Array.from({ length: totalPages }, (_, index) => 
+                    <Button 
+                    key={index + 1} 
+                    onClick={() => setCurrentPage(index + 1)}
+                    variant={currentPage === index + 1 ? "default": "outline"}
+                    >{index + 1}</Button>
+                )}
+                
+                <Button 
+                    variant="outline"
+                    disabled={currentPage === totalPages}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    >
+                    Next
+                    <ChevronRight/>
+                </Button>
+            </div>
         </main>
     );
 }

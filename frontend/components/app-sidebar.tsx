@@ -52,7 +52,7 @@ function SidebarWithSession() {
                 {/* top of the sidebar */}
                 <SidebarHeader />
                 <div className="text-center justify-center text-lg font-bold">
-                    Welcome, <span className='text-orange-500'>{session?.user.name ?? "Guest"}</span>
+                    Welcome, <span className='text-orange-500'>{session?.user.name}</span>
                 </div>
             </div>
             
