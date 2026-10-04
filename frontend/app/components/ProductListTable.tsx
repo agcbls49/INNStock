@@ -46,10 +46,10 @@ export default function ProductListCard() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    // search
+    // search feature
     const [searchQuery, setSearchQuery] = useState("");
 
-    async function searchProducts(searchQuery:string) {
+    async function searchProducts() {
         // encodeURIComponent ensures that data put into the link is safe
         const response = await fetch(`http://localhost:4000/api/search?q=${encodeURIComponent(searchQuery)}`);
         const result = await response.json();
@@ -165,15 +165,12 @@ export default function ProductListCard() {
                                 placeholder="e.g. Mouse"
                                 className="p-4"
                                 onChange={(e) => {
-                                    // when value of the input field changes
+                                    // takes the value inputted by the user
                                     const value = e.target.value;
-
-                                    // if not empty then call the search end point
-                                    if(value.trim()) {
-                                        searchProducts(value);
-                                    }
-                                    // if input field is empty then reload all products
-                                    else {
+                                    // stores that value to be a search query
+                                    setSearchQuery(value); 
+                                    // if input field is empty then load all products 
+                                    if (!value.trim()) {
                                         loadAllProducts();
                                     }
                                 }}
@@ -182,7 +179,10 @@ export default function ProductListCard() {
                     </div>
                     {/* search button */}
                     <div className="flex">
-                        <Button className="p-4 hover:cursor-pointer">
+                        <Button className="p-4 hover:cursor-pointer"
+                            // you need to click the search button to search now 
+                            // unlike the previous code
+                            onClick={searchProducts}>
                             <PackageSearch/> Search for a Product 
                         </Button>
                     </div>
