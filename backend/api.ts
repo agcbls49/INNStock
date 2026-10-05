@@ -1,6 +1,6 @@
 // import database config and user table from schema folder
 import { db } from "./db";
-import { or, ilike, count, eq } from "drizzle-orm";
+import { or, ilike, count, eq, and, inArray } from "drizzle-orm";
 import { productsListTable, user } from "./drizzle/schema";
 
 // import express data types and cors
@@ -41,11 +41,26 @@ async function main() {
     // for the search feature
     app.get("/api/search", async(req: Request, res: Response) => {
         // req.query.q for http://localhost:4000/api/search?q=mouse
-        const query = req.query.q as string;
+        // Read the search text from the address, use "" if there is none
+        const query = (req.query.q as string) ?? "";
+
+        // since the frontend has two dropdowns while database only has one category
+        // if a category is set then split it else its an empty array or list 
+        const category = req.query.category ? (req.query.category as string).split(",") : [];
+        
+        // for searching with the drop down menus (example: ?status=Low Stock)
+        const status = req.query.status as string | undefined;
+
         const filteredItems = await db.select().from(productsListTable)
-            .where(or(
+            .where(and(or(
                 ilike(productsListTable.productName, `%${query}%`), 
                 ilike(productsListTable.category, `%${query}%`)
+            ),
+                // you cant do normal code here it has to be ternary
+                // checks for how many categories applied then makes the request to the database
+                category.length > 0 ? inArray(productsListTable.category, category) : undefined,    
+                // show products with status else if empty then show all statuses
+                status && status !== "" ? eq(productsListTable.status, status) : undefined,    
             ))
             .limit(10);
         

@@ -48,13 +48,26 @@ export default function ProductListCard() {
 
     // search feature
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedStatus, setSelectedStatus] = useState("");
 
-    async function searchProducts() {
+    // for the drop down menus
+    const computerParts = ["CPU", "CPU Cooler", "Motherboard","Memory", "Storage", "Monitor", 
+        "GPU", "Case", "Case Fans", "PSU", "Expansion Card"];
+
+    const computerAccessories = ["Webcam", "Keyboard", "Mouse", "Mouse Pad", 
+        "Headset", "Speaker"];
+
+    async function searchProducts(category = selectedCategory, status = selectedStatus) {
+        // not allowed to split this for readability because search will break       
         // encodeURIComponent ensures that data put into the link is safe
-        const response = await fetch(`http://localhost:4000/api/search?q=${encodeURIComponent(searchQuery)}`);
+        const response = await fetch(`http://localhost:4000/api/search?q=${encodeURIComponent(searchQuery)}&category=${encodeURIComponent(category)}&status=${encodeURIComponent(status)}`);
+
         const result = await response.json();
         // .product since my backend uses product as a list encapsulating the data or my database data
         setData(result.product);
+
+        setCurrentPage(1);
     }
 
     // slice for creating a copy of an array
@@ -98,23 +111,27 @@ export default function ProductListCard() {
                     <DropdownMenu>
                         <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
                             <Funnel/>
-                            Filter by Computer Parts
+                            {/* shows what category was chosen else its the default text */}
+                            {computerParts.includes(selectedCategory) ? selectedCategory : "Filter by Computer Parts"} 
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuGroup>
                             <DropdownMenuLabel>Computer Parts</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>CPU</DropdownMenuItem>
-                            <DropdownMenuItem>CPU Cooler</DropdownMenuItem>
-                            <DropdownMenuItem>Motherboard</DropdownMenuItem>
-                            <DropdownMenuItem>Memory</DropdownMenuItem>
-                            <DropdownMenuItem>Storage</DropdownMenuItem>
-                            <DropdownMenuItem>Monitor</DropdownMenuItem>
-                            <DropdownMenuItem>GPU</DropdownMenuItem>
-                            <DropdownMenuItem>Case</DropdownMenuItem>
-                            <DropdownMenuItem>Case Fans</DropdownMenuItem>
-                            <DropdownMenuItem>PSU</DropdownMenuItem>
-                            <DropdownMenuItem>Expansion Card</DropdownMenuItem>
+                            {/* this clears the filer by setting it to empty if All is chosen */}
+                            <DropdownMenuItem onClick={() => { 
+                                setSelectedCategory(""); 
+                                loadAllProducts();
+                                }}>All
+                            </DropdownMenuItem>
+                            {/* for every item in the array turn it into a drop down item*/}
+                            {computerParts.map((part) => (
+                                <DropdownMenuItem key={part} onClick={() => {
+                                    setSelectedCategory(part);
+                                    }}>
+                                    {part}
+                                </DropdownMenuItem>
+                            ))}
                             </DropdownMenuGroup>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -123,18 +140,27 @@ export default function ProductListCard() {
                     <DropdownMenu>
                         <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
                             <Funnel/>
-                            Filter by Computer Accessories
+                            {/* shows what category was chosen else its the default text */}
+                            {computerAccessories.includes(selectedCategory) ? selectedCategory : "Filter by Computer Accessories"} 
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuGroup>
                             <DropdownMenuLabel>Computer Accessories</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>Webcam</DropdownMenuItem>
-                            <DropdownMenuItem>Keyboard</DropdownMenuItem>
-                            <DropdownMenuItem>Mouse</DropdownMenuItem>
-                            <DropdownMenuItem>Mouse Pad</DropdownMenuItem>
-                            <DropdownMenuItem>Headset</DropdownMenuItem>
-                            <DropdownMenuItem>Speaker</DropdownMenuItem>
+                            {/* this clears the filer by setting it to empty if All is chosen */}
+                            <DropdownMenuItem onClick={() => {
+                                setSelectedCategory("");
+                                loadAllProducts();
+                                }}>All
+                            </DropdownMenuItem>
+                            {/* for every item in the array turn it into a drop down item*/}
+                            {computerAccessories.map((accessory) => (
+                                <DropdownMenuItem key={accessory} onClick={() => {
+                                    setSelectedCategory(accessory);
+                                }}>
+                                    {accessory}
+                                </DropdownMenuItem>
+                            ))}
                             </DropdownMenuGroup>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -143,15 +169,26 @@ export default function ProductListCard() {
                     <DropdownMenu>
                         <DropdownMenuTrigger render={<Button variant="outline" className="p-4 hover:cursor-pointer" />}>
                             <Funnel/>
-                            Filter by Product Stock Status
+                            {/* shows what status was chosen else its the default text */}
+                            {selectedStatus || "Filter by Product Stock Status"} 
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                             <DropdownMenuGroup>
                             <DropdownMenuLabel>Stock Status</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>In Stock</DropdownMenuItem>
-                            <DropdownMenuItem>Low Stock</DropdownMenuItem>
-                            <DropdownMenuItem>Out of Stock</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { 
+                                setSelectedStatus(""); 
+                                loadAllProducts();
+                                }}>All</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { 
+                                setSelectedStatus("In Stock") 
+                                }}>In Stock</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { 
+                                setSelectedStatus("Low Stock") 
+                                }}>Low Stock</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { 
+                                setSelectedStatus("Out of Stock"); 
+                                }}>Out of Stock</DropdownMenuItem>
                             </DropdownMenuGroup>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -182,7 +219,7 @@ export default function ProductListCard() {
                         <Button className="p-4 hover:cursor-pointer"
                             // you need to click the search button to search now 
                             // unlike the previous code
-                            onClick={searchProducts}>
+                            onClick={() => searchProducts()}>
                             <PackageSearch/> Search for a Product 
                         </Button>
                     </div>
