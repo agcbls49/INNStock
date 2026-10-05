@@ -229,6 +229,24 @@ async function main() {
         }
     });
 
+    // delete a product
+    app.delete("/api/products/:id", async(req: Request, res: Response) => {
+        // get the id of product that the user is going to delete 
+        const id = Number(req.params.id);
+        if (Number.isNaN(id)) {
+            return res.status(400).json({ message: "Invalid product id" });
+        }
+
+        try {
+            await db.delete(productsListTable).where(eq(productsListTable.id, id));
+            res.status(200).json({ message: "Product successfully deleted!" });
+        }
+        catch(e:any){
+            console.error(e);
+            res.status(500).json({ error: "Internal server error" });
+        }
+    });
+
         const port = process.env.PORT || 4000;
         app.listen(port, () => {
             console.log(`Server running on http://localhost:${port}/api`);
