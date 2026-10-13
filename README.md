@@ -1,5 +1,5 @@
 # INNStock
-An inventory management system
+An inventory management system for electronic products. **Admin only login**.
 
 ## Tech Stack
 

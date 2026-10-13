@@ -29,8 +29,10 @@ import {
 
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import ProductModal from "./ProductModal";
 
 type Product = {
+    id: number,
     productName: string;
     skuNumber: string;
     category: string;
@@ -59,6 +61,13 @@ export default function ProductListCard() {
         "Headset", "Speaker"];
 
     async function searchProducts(category = selectedCategory, status = selectedStatus) {
+        // if user clicks search and input + category filters are empty then reload data including the pagination buttons
+        if (searchQuery.trim() === "" && category === "" && status === "") { 
+            loadAllProducts(); 
+            setCurrentPage(1); 
+            return; 
+        }
+
         // not allowed to split this for readability because search will break       
         // encodeURIComponent ensures that data put into the link is safe
         const response = await fetch(`http://localhost:4000/api/search?q=${encodeURIComponent(searchQuery)}&category=${encodeURIComponent(category)}&status=${encodeURIComponent(status)}`);
@@ -95,6 +104,17 @@ export default function ProductListCard() {
         catch (e) {
             console.error(e);
             setData([]);
+        }
+    }
+
+        // clicking delete will not make the page reload
+        async function handleDelete(id: number) {
+        const response = await fetch(`http://localhost:4000/api/products/${id}`, {
+            method: "DELETE",
+        });
+
+        if (response.ok) {
+            loadAllProducts();
         }
     }
 
@@ -227,9 +247,11 @@ export default function ProductListCard() {
 
                 {/* add item and download buttons */}
                 <div className="flex gap-2 ml-2">
-                    <Button className="p-4 hover:cursor-pointer">
-                        <PackagePlus /> Add a Product 
-                    </Button>
+                    <ProductModal onProductAdded={loadAllProducts} onProductEdit={loadAllProducts}>
+                        <Button className="p-4 hover:cursor-pointer">
+                            <PackagePlus /> Add a Product 
+                        </Button>
+                    </ProductModal>
                     <Button className="w-fit justify-self-center rounded-lg p-4 bg-orange-600 text-white hover:bg-orange-700 hover:text-white pointer-events-auto hover:cursor-pointer"
                         onClick={() => { window.location.href = "http://localhost:4000/api/products/download"; }}>
                         <ArrowDownToLine /> Download Product List
@@ -273,11 +295,13 @@ export default function ProductListCard() {
                             <TableCell>
                                 <div className="flex gap-2">
                                     {/* edit button */}
-                                    <Button variant="outline">
-                                        Edit
-                                    </Button>
+                                    <ProductModal product={product} onProductAdded={loadAllProducts} onProductEdit={loadAllProducts}>
+                                        <Button variant="outline">
+                                            Edit
+                                        </Button>
+                                    </ProductModal>
                                     {/* delete button */}
-                                    <Button variant="destructive">
+                                    <Button variant="destructive" onClick={() => handleDelete(product.id)}>
                                         Delete
                                     </Button>
                                 </div>
