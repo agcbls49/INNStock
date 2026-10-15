@@ -1,5 +1,9 @@
 # INNStock
-An inventory management system for electronic products. **Admin only login**.
+An inventory management system for electronic products. **Admin only login and not mobile responsive**.
+
+## Login Credentials
+Email: admin@example.com
+Password: Admin123!
 
 ## Tech Stack
 

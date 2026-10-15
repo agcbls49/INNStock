@@ -261,6 +261,14 @@ async function seed() {
             totalStocks: 6,
             itemPrice: "3499.00",
             status: "Low Stock",
+        },
+        {
+            productName: "JBL Go 4",
+            skuNumber: "SKU-031",
+            category: "Speaker",
+            totalStocks: 59,
+            itemPrice: "2499.00",
+            status: "In Stock",
         }
     ]);
 

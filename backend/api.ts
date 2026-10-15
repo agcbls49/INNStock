@@ -119,6 +119,21 @@ async function main() {
             .map(product => product.productName)
             .slice(0, 5);    
 
+        // this code is for the bar chart
+        // add up the total stock of each category
+        // categoryTotals starts as an empty object, like { Mouse: 120, Headset: 80 }
+        const categoryTotals = products.reduce((totals: Record<string, number>, product) => {
+            // if the category is not in the object yet, start it at 0, then add this product's stock
+            totals[product.category] = (totals[product.category] ?? 0) + product.totalStocks;
+            return totals;
+        }, {});
+
+        // turn the object into a list that the chart can read
+        const categories = Object.entries(categoryTotals).map(([category, stock]) => ({
+            category,
+            stock,
+        }));
+
         res.json({
             totalProducts,
             totalStock,
@@ -126,7 +141,8 @@ async function main() {
             outOfStock,
             inventoryValue,
             lowStockProductName,
-            outOfStockProductName
+            outOfStockProductName,
+            categories
         });
     });
     

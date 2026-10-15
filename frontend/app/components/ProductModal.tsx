@@ -1,7 +1,5 @@
 "use client";
 
-import { authClient } from "@/lib/auth-client";
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -23,7 +21,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { useState, useEffect, ReactElement } from "react";
+import { useState, ReactElement } from "react";
 
 type Product = {
     id: number;
@@ -46,8 +44,6 @@ interface EditProductProps {
 }
 
 export default function ProductModal({ onProductAdded, onProductEdit, product, children }: AddProductProps & EditProductProps) {
-    const [data, setData] = useState<Product[]>([]);
-
     const [open, setOpen] = useState(false);
 
     const[productName, setProductName] = useState("");

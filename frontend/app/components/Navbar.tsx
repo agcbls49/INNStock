@@ -37,8 +37,7 @@ export default function Navbar() {
 
             {/* if user is logged in then show log out instead of sign up or log in button */}
             {session ? (
-                <div>
-                    <div className="flex gap-2">
+                <div className="flex gap-2">
                     {/* dark mode switch */}
                     <Button variant="outline" size="icon" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
                         <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
@@ -47,7 +46,6 @@ export default function Navbar() {
                     <Button onClick={handleLogout} variant="destructive" className="font-bold">
                         Log Out
                     </Button>
-                    </div>
                 </div>
             ) : (
                 <div className="flex gap-2">

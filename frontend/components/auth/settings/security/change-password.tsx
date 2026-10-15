@@ -486,7 +486,7 @@ function ChangePasswordForm({
               <form.AuthFormSubmitButton
                 disabled={isPending || !session}
                 size="sm"
-                className="p-3 h-8.5 rounded-md bg-orange-600 text-white hover:bg-orange-700 capitalize font-bold hover:cursor-pointer"
+                className="p-3 h-8.5 rounded-md bg-orange-600 text-white text-md hover:bg-orange-700 capitalize font-bold hover:cursor-pointer"
               >
                 <Lock className="mr-2"/>
                 {localization.settings.updatePassword}

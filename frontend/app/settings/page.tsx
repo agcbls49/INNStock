@@ -70,7 +70,7 @@ export default function SettingsPage() {
                 }}
                 redirectTo="/dashboard"
             >
-                <div className="m-20 w-150 space-y-10">
+                <div className="ml-10 mt-10 w-150 space-y-10">
                     <ChangePassword />
                     {/* delete account needs that user password */}
                     <Card className="bg-destructive/5">
