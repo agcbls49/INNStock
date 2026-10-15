@@ -14,7 +14,8 @@ export async function proxy(request: NextRequest) {
     // Only check authentication for private pages
     if (PRIVATE_ROUTES.includes(pathname)) {
         const response = await fetch(
-            "http://localhost:4000/api/auth/get-session",
+            // added this to make it work locally and using docker
+            `${process.env.BACKEND_URL}/api/auth/get-session`,
             {
                 headers: {
                     Cookie: request.headers.get("cookie") || "",

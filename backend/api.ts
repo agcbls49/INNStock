@@ -148,7 +148,7 @@ async function main() {
     
     // gets all products
     app.get("/api/products", async (_req: Request, res: Response) => {
-        const data = await db.select().from(productsListTable);
+        const data = await db.select().from(productsListTable).orderBy(productsListTable.id);
         // this sends all product details
         res.json({product: data});
     }); 

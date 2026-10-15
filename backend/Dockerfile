@@ -4,7 +4,9 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+# have to put legacy dependency because of 
+# better auth and drizzle orm version discrepancies
+RUN npm install --legacy-peer-deps
 
 COPY . .
 

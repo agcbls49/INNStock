@@ -1,0 +1,48 @@
+services:
+  postgres:
+    image: postgres:18.2
+    container_name: innstock-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: innstock
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql-data:/var/lib/postgresql
+
+  backend:
+    image: innstock-backend:latest
+    container_name: innstock-backend
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./backend/.env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: appuser
+      DB_PASSWORD: password
+      DB_NAME: innstock
+      PORT: 4000
+      NODE_ENV: production
+      BETTER_AUTH_SECRET: your_secret
+      BETTER_AUTH_URL: http://localhost:4000
+
+  frontend:
+    image: innstock-frontend:latest
+    container_name: innstock-frontend
+    restart: unless-stopped
+    environment:
+      BACKEND_URL: http://backend:4000
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgresql-data:

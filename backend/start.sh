@@ -1,6 +1,7 @@
 #!/bin/sh
-npx drizzle-kit migrate
+set -e
 
+npm run db:migrate
 npm run db:seed
 
 exec npm start

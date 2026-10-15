@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # install app dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # copy code into the docker image 
 COPY . .
