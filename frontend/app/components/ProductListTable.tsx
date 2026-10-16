@@ -109,14 +109,22 @@ export default function ProductListCard() {
 
         // clicking delete will not make the page reload
         async function handleDelete(id: number) {
-        const response = await fetch(`http://localhost:4000/api/products/${id}`, {
-            method: "DELETE",
-        });
+            const deleteConfirmation = confirm("Are you sure you want to delete this product?");
 
-        if (response.ok) {
-            loadAllProducts();
+            if (deleteConfirmation)
+            {   
+                const response = await fetch(`http://localhost:4000/api/products/${id}`, {
+                    method: "DELETE",
+                });
+
+                if (response.ok) {
+                    loadAllProducts();
+                }
+            }
+            else { 
+                return; 
+            }
         }
-    }
 
     useEffect(() => {
         loadAllProducts();

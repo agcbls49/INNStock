@@ -4,6 +4,7 @@ An inventory management system for electronic products.
 > [!NOTE]
 > **Admin only login and not mobile responsive.** <br>
 > Search button will not work unless the user chooses from the drop down menus or inputs text in the search field. To reset the view, simply choose the **"All"** option in the drop down menus. <br>
+> To delete the account, the account password must be entered first.
 
 > [!IMPORTANT]
 > Docker doesn't work due to TanStack dependency but the **project works locally.**
@@ -14,7 +15,7 @@ Email: admin@example.com
 Password: Admin123!
 
 ## Features
-1. Authentication
+1. Authentication (Login, Sign Up, and Log Out)
 2. Change Password
 3. Delete Account
 4. Show the Top 5 Products Low in Stock or Out of Stock
